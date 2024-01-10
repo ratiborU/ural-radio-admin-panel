@@ -9,11 +9,11 @@ import axios from "axios";
 export default class IssuesService {
   // Выпуски
   static async getAllIssues() {
-    const response =  await axios.get('http://127.0.0.1:8000/editions/get/all'); 
+    const response =  await axios.get('https://journal-8xii.onrender.com/editions/get/all'); 
     return response["data"]["data"];
   }
   static async getIssueById(id) {
-    const response =  await axios.get(`http://127.0.0.1:8000/editions/get/${id}`); 
+    const response =  await axios.get(`https://journal-8xii.onrender.com/editions/get/${id}`); 
     return response["data"]["edition"];
   }
 
@@ -25,58 +25,58 @@ export default class IssuesService {
 
   // Статьи
   static async getAllArticles() {
-    const response =  await axios.get('http://127.0.0.1:8000/articles/get/all'); 
+    const response =  await axios.get('https://journal-8xii.onrender.com/articles/get/all'); 
     return response["data"]["data"];
   }
   static async getArticlesByIssueId(id: string) {
-    const response =  await axios.get('http://127.0.0.1:8000/articles/get/all'); 
+    const response =  await axios.get('https://journal-8xii.onrender.com/articles/get/all'); 
     return response["data"]["data"].filter(item => item["editionId"] == id);
   }
   static async getArticleById(id: string) {
-    const response =  await axios.get(`http://127.0.0.1:8000/articles/get/${id}`); 
+    const response =  await axios.get(`https://journal-8xii.onrender.com/articles/get/${id}`); 
     return response["data"]["article"];
   }
 
   
   // Комментарии
   static async getAllComments() {
-    const response =  await axios.get(`http://127.0.0.1:8000/comments/get/all?onlyApproved=false`); 
+    const response =  await axios.get(`https://journal-8xii.onrender.com/comments/get/all?onlyApproved=false`); 
     return response["data"]["data"];
   }
   static async getCommentsByArticleId(id: string) {
-    const response =  await axios.get(`http://127.0.0.1:8000/comments/get/all?onlyApproved=false`); 
+    const response =  await axios.get(`https://journal-8xii.onrender.com/comments/get/all?onlyApproved=false`); 
     return response["data"]["data"].filter(item => item["articleId"] == id);
   }
   static async getApprovedCommentsByArticleId(id: string) {
-    const response =  await axios.get(`http://127.0.0.1:8000/comments/get/all?onlyApproved=false`); 
+    const response =  await axios.get(`https://journal-8xii.onrender.com/comments/get/all?onlyApproved=false`); 
     return response["data"]["data"].filter(item => item["articleId"] == id && item["isApproved"]);
   }
   static async getNotApprovedCommentsByArticleId(id: string) {
-    const response =  await axios.get(`http://127.0.0.1:8000/comments/get/all?onlyApproved=false`); 
+    const response =  await axios.get(`https://journal-8xii.onrender.com/comments/get/all?onlyApproved=false`); 
     return response["data"]["data"].filter(item => item["articleId"] == id && !item["isApproved"]);
   }
   static async getCommentById(id: string) {
-    const response =  await axios.get(`http://127.0.0.1:8000/comments/get/all?onlyApproved=false`); 
+    const response =  await axios.get(`https://journal-8xii.onrender.com/comments/get/all?onlyApproved=false`); 
     return response["data"]["data"].filter(item => item["id"] == id);
   }
 
 
   // Редакторы
   static async getAllReductors() {
-    const response =  await axios.get('http://127.0.0.1:8000/council/members/get/all');
+    const response =  await axios.get('https://journal-8xii.onrender.com/council/members/get/all');
     return response["data"]["data"];
   }
   static async getReductorById(id: string) {
-    const response =  await axios.get(`http://127.0.0.1:8000/council/members/get/${id}`);
+    const response =  await axios.get(`https://journal-8xii.onrender.com/council/members/get/${id}`);
     return response["data"]["member"];
   }
 
 
   static async getImageLinkById(id: string) {
-    return `http://127.0.0.1:8000/files/get/${id}?download=false`;
+    return `https://journal-8xii.onrender.com/files/get/${id}?download=false`;
   }
   static async getFileLinkById(id: string) {
-    return `http://127.0.0.1:8000/files/get/${id}?download=true`;
+    return `https://journal-8xii.onrender.com/files/get/${id}?download=true`;
   }
 
 
