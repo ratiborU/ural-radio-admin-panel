@@ -30,6 +30,7 @@ export default class IssueService {
         },
         "date":"2003-11-01T12:00:00Z",
         "filePathId": fileId,
+        "videoPathId": "65996ba0fe7f2cec36368d6b",
         "coverPathId" : imageId
       })
     }).then(result => {

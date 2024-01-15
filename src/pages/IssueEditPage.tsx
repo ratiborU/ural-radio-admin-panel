@@ -113,6 +113,12 @@ const IssueEditPage = () => {
         <button className='issue__button' onClick={handleButtonLoadImage}>выбрать обложку</button>
         <button className='issue__button' onClick={handleButtonSendImage}>загрузить</button>
       </div>
+
+      <input className='hidden' ref={imagePicker} type="file" name="file" accept=".mp4" onChange={handleChooseImage}/>
+      <div className="issue__buttons">
+        <button className='issue__button' onClick={handleButtonLoadImage}>выбрать видео</button>
+        <button className='issue__button' onClick={handleButtonSendImage}>загрузить</button>
+      </div>
       
       <p className='issue__title'>Содержание</p>
 

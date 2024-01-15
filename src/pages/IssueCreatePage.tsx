@@ -12,6 +12,7 @@ const IssueCreatePage = () => {
   const [issue, setIssue] = useState('');
   const filePicker = useRef(null)
   const imagePicker = useRef(null)
+  const videoPicker = useRef(null)
 
   const [fileId, setFileId] = useState('');
   const [imageId, setImageId] = useState('');
@@ -53,6 +54,7 @@ const IssueCreatePage = () => {
     
     setFileId(res.id)
     console.log(res.id);
+    alert("Фийл загружен");
   };
 
 
@@ -75,6 +77,27 @@ const IssueCreatePage = () => {
 
     setImageId(res.id);
     console.log(res.id);
+    alert("Изображение загружено");
+  };
+
+
+  const handleChooseVideo = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+  const handleButtonLoadVideo = (e) => {
+    videoPicker.current.click();
+  };
+
+  const handleButtonSendVideo = async (e) => {
+    const form = new FormData();
+    form.append("file", file);
+
+    const res = await IssuesService.postLoadFile(form, "avatars");
+
+    setImageId(res.id);
+    console.log(res.id);
+    alert("Видео загружено");
   };
 
   return (
@@ -124,6 +147,12 @@ const IssueCreatePage = () => {
       <div className="issue__buttons">
         <button className='issue__button' onClick={handleButtonLoadImage}>выбрать обложку</button>
         <button className='issue__button' onClick={handleButtonSendImage}>загрузить</button>
+      </div>
+      
+      <input className='hidden' ref={videoPicker} type="file" name="file" accept="" onChange={handleChooseVideo}/>
+      <div className="issue__buttons">
+        <button className='issue__button' onClick={handleButtonLoadVideo}>выбрать видео</button>
+        <button className='issue__button' onClick={handleButtonSendVideo}>загрузить</button>
       </div>
       
 
