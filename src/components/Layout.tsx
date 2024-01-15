@@ -1,13 +1,11 @@
-// import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, NavLink, Outlet } from 'react-router-dom';
-// import Aboutpage from '../pages/Aboutpage';
-// import image from "../assets/image 4.svg"
-// import image2 from "../assets/image 3.svg"
+import { useFetching } from '../hooks/useFetching';
+import IssueService from '../api/IssueService';
 import Page from './Page';
 
 
 const setActiveLink = ({isActive}) => isActive ? 'header__group-link header__group-link-active' : 'header__group-link';
-
 
 const Layout = () => {
   return (
@@ -15,9 +13,11 @@ const Layout = () => {
       <header className='header'>
         {/* <div className="container"> */}
           <nav className='header__nav'>
-            <NavLink className={setActiveLink} to="/issues">Выпуски</NavLink>
-            <NavLink className={setActiveLink} to="/reductors">Редакторы</NavLink>
-            <NavLink className={setActiveLink} to="/files">Файлы</NavLink>
+            <div className="header__nav-group">
+              <NavLink className={setActiveLink} to="/issues">Выпуски</NavLink>
+              <NavLink className={setActiveLink} to="/reductors">Редакторы</NavLink>
+              <NavLink className={setActiveLink} to="/files">Вход</NavLink>
+            </div>
             
           </nav>
         {/* </div> */}

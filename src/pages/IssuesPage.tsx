@@ -10,7 +10,7 @@ const IssuesPage = () => {
 
   const [fetchIssues, isIssuesLoading, issuesError] = useFetching( async () => {
     const issuesResponse = await IssuesService.getAllIssues();
-    // console.log(issuesResponse);
+    
     issuesResponse.sort((a, b) => a["title"]["Ru"] < b["title"]["Ru"] ? 1 : -1);
     setIssues(issuesResponse);
   })

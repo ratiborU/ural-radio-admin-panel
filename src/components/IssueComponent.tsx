@@ -6,18 +6,33 @@ import IssuesService from '../api/IssueService';
 const IssuseComponent = ({item}) => {
   const date = new Date(item["date"]);
   const [coverImage, setCoverImage] = useState();
+  const [fileId, setFileId] = useState(item["filePathId"]);
+  const [imageId, setImageId] = useState(item["coverPathId"]);
   
 
   const [fetchCoverImage, isCoverImageLoading, coverImageError] = useFetching( async () => {
     const coverImageResponse = await IssuesService.getImageLinkById(item["coverPathId"]);
     // console.log(coverImageResponse);
     setCoverImage(coverImageResponse);
+    
   })
 
 
   useEffect(() => {
     fetchCoverImage();
   }, []);
+
+
+  const handleButtonDelete = async (e) => {
+    const res1 = await IssuesService.deleteIssue(item["id"]);
+    // const res2 = await IssuesService.deletefile(fileId);
+    // const res3 = await IssuesService.deletefile(imageId);
+    
+    // setFileId(res.id)
+    console.log(res1);
+    console.log(res2);
+    console.log(res3);
+  };
   
 
   return (
@@ -32,7 +47,7 @@ const IssuseComponent = ({item}) => {
       <Link to={`/issues/${item["id"]}`}>
         <button className='catalog__item-button'>Редактировать</button>
       </Link>
-      <button className='catalog__item-button'>Удалить</button>
+      <button className='catalog__item-button' onClick={handleButtonDelete}>Удалить</button>
     </div>
   );
 };

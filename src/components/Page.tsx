@@ -1,6 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useFetching } from '../hooks/useFetching';
+import IssueService from '../api/IssueService';
 
 const Page = ({ children }) => {
+  // const [fetchLogin, isLoginLoading, loginError] = useFetching( async () => {
+  //   const loginResponse = await IssueService.postAuth();
+  //   console.log(loginResponse);
+  //   window.localStorage.setItem('token', loginResponse["Token"]);
+  // })
+  
+  // useEffect(() => {
+  //   fetchLogin();
+  // }, [])
+
   return (
     <>
       <main className='main'>

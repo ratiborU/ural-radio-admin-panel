@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useFetching } from '../hooks/useFetching';
 import IssuesService from '../api/IssueService';
@@ -7,85 +7,137 @@ import ArticleComponent from '../components/ArticleComponent';
 
 const IssueCreatePage = () => {
   const [title, setTitle] = useState('');
+  const [titleEn, setTitleEn] = useState('');
   const [file, setFile] = useState('');
   const [issue, setIssue] = useState('');
+  const filePicker = useRef(null)
+  const imagePicker = useRef(null)
 
-  const [cookie, setCookie] = useState('');
+  const [fileId, setFileId] = useState('');
+  const [imageId, setImageId] = useState('');
 
-  // let formData = new FormData([form]);
+
+
+
 
   const [fetchIssue, isIssueLoading, issueError] = useFetching( async () => {
-    const issueResponse = await IssuesService.postLoadFile(file);
-    // console.log(issueResponse["body"]["message"]);
-    setIssue(issueResponse);
+    const issue = await IssuesService.createIssue(fileId, imageId, title, titleEn);
+    console.log(issue);
   })
 
   const [fetchLogin, isLoginLoading, loginError] = useFetching( async () => {
-    const issueResponse = await IssuesService.postAuth();
-
-    // const cookies = issueResponse.headers.getSetCookie();
-
-  // Сохранить куки в браузере
-  // for (const cookie of cookies.split(";")) {
-  //   document.cookie = cookie;
-  // }
+    const loginResponse = await IssuesService.postAuth();
+    console.log(loginResponse);
+    window.localStorage.setItem('token', loginResponse["Token"]);
   })
+
+  
+
+
+
+
+  const handleChooseFile = (e) => {
+    setFile(e.target.files[0]);
+    console.log(e.target.files[0]);
+  };
+
+  const handleButtonLoadFile = (e) => {
+    filePicker.current.click();
+  };
+
+  const handleButtonSendFile = async (e) => {
+    const form = new FormData();
+    form.append("file", file);
+
+    const res = await IssuesService.postLoadFile(form, "editions");
+    
+    setFileId(res.id)
+    console.log(res.id);
+  };
+
+
+
+
+
+  const handleChooseImage = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+  const handleButtonLoadImage = (e) => {
+    imagePicker.current.click();
+  };
+
+  const handleButtonSendImage = async (e) => {
+    const form = new FormData();
+    form.append("file", file);
+
+    const res = await IssuesService.postLoadFile(form, "avatars");
+
+    setImageId(res.id);
+    console.log(res.id);
+  };
 
   return (
     <>
       <input className="issue__input" type="text" placeholder='Введите название...' value={title} onChange={(e) => setTitle(e.target.value)}/>
-      
+      <input className="issue__input" type="text" placeholder='Введите название на английском...' value={titleEn} onChange={(e) => setTitleEn(e.target.value)}/>
 
 
-      {/* форма которая должна работать */}
-      <form method='post' action="" onSubmit={ async (e) => {
+      {/* <form className="issue__form" id="form" method='post' action="" onSubmit={ async (e) => {
         e.preventDefault();
-        const response = await fetch('https://journal-8xii.onrender.com/admin/files/upload/editions', {
+        const form = document.querySelector('.issue__form');
+        console.log(window.localStorage.getItem('token'));
+        const formData = new FormData(form);
+
+        const response = await fetch('https://journa-token.onrender.com/admin/files/upload/editions', {
           method: 'POST',
           headers: {
-            "Content-Type": 'multipart/form-data'
+            "Content-Type": 'multipart/form-data',
+            "Authorization": `Bearer ${window.localStorage.getItem('token')}`
           },
-          body: new FormData()
+          body: formData
         });
-        const result = await response.json();
-        alert(result.message);
+        const result = response.json();
+        console.log(result);
+        
       }}>
-
         <div className="issue__load">
         <label className="issue__load-file">
           <input type="file" name="file" onChange={(e) => setFile(e.target.value)}/>		
           <span>Выберите файл</span>
         </label>
         </div>
+        <input type="file" name="file" accept=".pdf" onChange={(e) => {
+          console.log(e.target.files)
+        }}/>
         <input type="submit" />
-      </form>
+      </form> */}
+
+      
+      <input className='hidden' ref={filePicker} type="file" name="file" accept=".pdf" onChange={handleChooseFile}/>
+      <div className="issue__buttons">
+        <button className='issue__button' onClick={handleButtonLoadFile}>выбрать файл</button>
+        <button className='issue__button' onClick={handleButtonSendFile}>загрузить</button>
+      </div>
+      
+      <input className='hidden' ref={imagePicker} type="file" name="file" accept=".jpeg" onChange={handleChooseImage}/>
+      <div className="issue__buttons">
+        <button className='issue__button' onClick={handleButtonLoadImage}>выбрать обложку</button>
+        <button className='issue__button' onClick={handleButtonSendImage}>загрузить</button>
+      </div>
+      
 
 
 
-
-
-
-      <input type="file" />
-      <p className='issue__title'>Содержание</p>postAuth
-      {/* кнопки входа и создания выпуска */}
-      <button className='catalog__create-issue-button' onClick={() => fetchLogin()}>войти</button>
+      
+      <p className='issue__title'>Содержание</p>
+      {/* <button className='catalog__create-issue-button' onClick={() => fetchLogin()}>войти</button> */}
       <button className='catalog__create-issue-button' onClick={() => fetchIssue()}>Создать выпуск</button>
-
-
-
-      {/* <button className='catalog__create-issue-button' onClick={() => console.log()}>войти</button> */}
-      {/* <button className='catalog__create-issue-button' onClick={() => {
-        fetch("http://localhost:8000/admin/auth/login", { 
-          method : 'POST',
-          headers: {'Content-Type' : 'application/json'},
-          body: JSON.stringify({
-              "username":"admin",
-              "password":"admin"
-          })}).then(response => {
-            return response;
-          })
-      }}>куки куки</button> */}
-      {/* <button className='catalog__create-issue-button' onClick={() => {document.cookie="admin=MTcwNDgzNDIzNXxEWDhFQVFMX2dBQUJFQUVRQUFBa180QUFBUVp6ZEhKcGJtY01Cd0FGWVdSdGFXNEdjM1J5YVc1bkRBY0FCV0ZrYldsdXwNE_iJIp3vCIghoH-BLRMB0uwFQu1TTlXIpeZ7Uzwp2A==; Path=/; Domain=127.0.0.1; Expires=Tue, 09 Jan 2024 22:03:55 GMT; Max-Age=3600; SameSite=None";}}>alert</button> */}
+      {/* <button className='catalog__create-issue-button' onClick={(e) => {
+        const form = new FormData(document.querySelector('.issue__form').files);
+        console.log(form);
+      }}>Отправить файл</button> */}
+      
     </>
   );
 };
