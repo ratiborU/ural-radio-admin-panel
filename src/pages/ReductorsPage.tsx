@@ -12,18 +12,10 @@ import ReductorComponent from '../components/ReductorComponent';
 const ReductorsPage = () => {
   const [reductors, setReductors] = useState([]);
 
-  const [mainReductor, setMainReductor] = useState();
-  const [subReductor, setSubReductor] = useState();
-  const [menagerReductor, setMenagerReductor] = useState();
-
-
-
   const [fetchReductors, isReductorsLoading, reductorsError] = useFetching( async () => {
     const reductorsResponse = await IssuesService.getAllReductors();
+    console.log(reductorsResponse);
     setReductors(reductorsResponse);
-    setMainReductor(reductorsResponse.filter((item) => item["rank"] == "Главный редактор")[0]);
-    setSubReductor(reductorsResponse.filter((item) => item["rank"] == "Заместитель главного редактора")[0]);
-    setMenagerReductor(reductorsResponse.filter((item) => item["rank"] == "Управляющая редакцией")[0]);
   })
 
   useEffect(() => {

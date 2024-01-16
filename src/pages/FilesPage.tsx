@@ -9,9 +9,14 @@ const FilesPage = () => {
 
   const [fetchLogin, isLoginLoading, loginError] = useFetching( async () => {
     const loginResponse = await IssueService.postAuth(login, password);
-    console.log(login, password);
     window.localStorage.setItem('token', loginResponse["Token"]);
-    console.log(window.localStorage.getItem('token'));
+    console.log(loginResponse);
+    if (loginResponse.message == "success") {
+      alert("Вы успешно зарегестрировались");
+    } else {
+      alert("неверный логин или пароль");
+    }
+    
   })
   
   // useEffect(() => {

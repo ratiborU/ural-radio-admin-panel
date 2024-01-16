@@ -5,7 +5,7 @@ import { useFetching } from '../hooks/useFetching';
 import { Link } from 'react-router-dom';
 
 const IssuesPage = () => {
-  const [issues, setIssues] = useState();
+  const [issues, setIssues] = useState([]);
 
 
   const [fetchIssues, isIssuesLoading, issuesError] = useFetching( async () => {
@@ -37,7 +37,6 @@ const IssuesPage = () => {
             
           </div>
       }
-      выпуски
     </>
   );
 };

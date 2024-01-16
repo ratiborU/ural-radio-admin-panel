@@ -12,11 +12,15 @@ export default class IssueService {
     const response =  await axios.get('https://journa-token.onrender.com/editions/get/all'); 
     return response["data"]["data"];
   }
+
+
   static async getIssueById(id) {
     const response =  await axios.get(`https://journa-token.onrender.com/editions/get/${id}`); 
     return response["data"]["edition"];
   }
-  static async createIssue(fileId: string, imageId: string, title: string, titleEn) {
+
+
+  static async createIssue(fileId: string, imageId: string, videoId: string, title: string, titleEn) {
     const response = await fetch('https://journa-token.onrender.com/admin/editions/create', {
       method: 'POST',
       headers: {
@@ -30,7 +34,7 @@ export default class IssueService {
         },
         "date":"2003-11-01T12:00:00Z",
         "filePathId": fileId,
-        "videoPathId": "65996ba0fe7f2cec36368d6b",
+        "videoPathId": videoId,
         "coverPathId" : imageId
       })
     }).then(result => {
@@ -39,7 +43,9 @@ export default class IssueService {
 
     return response;
   }
-  static async updateIssue(issueId: string, fileId: string, imageId: string, title: string) {
+
+  
+  static async updateIssue(issueId: string, fileId: string, imageId: string, videoId: string, title: string, titleEn: string) {
     const response = await fetch('https://journa-token.onrender.com/admin/editions/update', {
       method: 'PUT',
       headers: {
@@ -50,10 +56,10 @@ export default class IssueService {
         "id": issueId,
         "title": {
           "Ru": title,
-          "Eng":"test edition"
+          "Eng": titleEn
         },
         "filePathId": fileId,
-        "videoPathId": "65996ba0fe7f2cec36368d6b",
+        "videoPathId": videoId,
         "coverPathId" : imageId
       })
     }).then(result => {
@@ -381,7 +387,7 @@ export default class IssueService {
     return response;
   }
   static async deletefile(fileId: string) {
-    const response = await fetch(`https://journa-token.onrender.com/files/get/${fileId}?download=false`, {
+    const response = await fetch(`https://journa-token.onrender.com/admin/files/delete/${fileId}`, {
       method: 'DELETE',
       headers: {
         "Authorization": `Bearer ${window.localStorage.getItem('token')}`

@@ -8,38 +8,34 @@ import ArticleComponent from '../components/ArticleComponent';
 const IssueCreatePage = () => {
   const [title, setTitle] = useState('');
   const [titleEn, setTitleEn] = useState('');
-  const [file, setFile] = useState('');
   const [issue, setIssue] = useState('');
+
+  const [filePdf, setFilePdf] = useState('');
+  const [fileImage, setFileImage] = useState('');
+  const [fileVideo, setFileVideo] = useState('');
+
   const filePicker = useRef(null)
   const imagePicker = useRef(null)
   const videoPicker = useRef(null)
 
   const [fileId, setFileId] = useState('');
   const [imageId, setImageId] = useState('');
+  const [videoId, setVideoId] = useState('');
 
-
-
+  const [fileName, setFileName] = useState('');
+  const [imageName, setImageName] = useState('');
+  const [videoName, setVideoName] = useState('');
 
 
   const [fetchIssue, isIssueLoading, issueError] = useFetching( async () => {
-    const issue = await IssuesService.createIssue(fileId, imageId, title, titleEn);
-    console.log(issue);
+    const issue = await IssuesService.createIssue(fileId, imageId, videoId, title, titleEn);
+    alert("Выпуск загружен");
   })
-
-  const [fetchLogin, isLoginLoading, loginError] = useFetching( async () => {
-    const loginResponse = await IssuesService.postAuth();
-    console.log(loginResponse);
-    window.localStorage.setItem('token', loginResponse["Token"]);
-  })
-
-  
-
-
 
 
   const handleChooseFile = (e) => {
-    setFile(e.target.files[0]);
-    console.log(e.target.files[0]);
+    setFilePdf(e.target.files[0]);
+    setFileName(e.target.files[0].name);
   };
 
   const handleButtonLoadFile = (e) => {
@@ -48,41 +44,32 @@ const IssueCreatePage = () => {
 
   const handleButtonSendFile = async (e) => {
     const form = new FormData();
-    form.append("file", file);
-
+    form.append("file", filePdf);
     const res = await IssuesService.postLoadFile(form, "editions");
-    
     setFileId(res.id)
-    console.log(res.id);
     alert("Фийл загружен");
   };
 
 
-
-
-
   const handleChooseImage = (e) => {
-    setFile(e.target.files[0]);
+    setFileImage(e.target.files[0]);
+    setImageName(e.target.files[0].name);
   };
-
   const handleButtonLoadImage = (e) => {
     imagePicker.current.click();
   };
-
   const handleButtonSendImage = async (e) => {
     const form = new FormData();
-    form.append("file", file);
-
+    form.append("file", fileImage);
     const res = await IssuesService.postLoadFile(form, "avatars");
-
     setImageId(res.id);
-    console.log(res.id);
     alert("Изображение загружено");
   };
 
 
   const handleChooseVideo = (e) => {
-    setFile(e.target.files[0]);
+    setFileVideo(e.target.files[0]);
+    setVideoName(e.target.files[0].name);
   };
 
   const handleButtonLoadVideo = (e) => {
@@ -91,82 +78,37 @@ const IssueCreatePage = () => {
 
   const handleButtonSendVideo = async (e) => {
     const form = new FormData();
-    form.append("file", file);
-
-    const res = await IssuesService.postLoadFile(form, "avatars");
-
-    setImageId(res.id);
-    console.log(res.id);
+    form.append("file", fileVideo);
+    const res = await IssuesService.postLoadFile(form, "editions");
+    setVideoId(res.id);
     alert("Видео загружено");
   };
+
 
   return (
     <>
       <input className="issue__input" type="text" placeholder='Введите название...' value={title} onChange={(e) => setTitle(e.target.value)}/>
       <input className="issue__input" type="text" placeholder='Введите название на английском...' value={titleEn} onChange={(e) => setTitleEn(e.target.value)}/>
 
-
-      {/* <form className="issue__form" id="form" method='post' action="" onSubmit={ async (e) => {
-        e.preventDefault();
-        const form = document.querySelector('.issue__form');
-        console.log(window.localStorage.getItem('token'));
-        const formData = new FormData(form);
-
-        const response = await fetch('https://journa-token.onrender.com/admin/files/upload/editions', {
-          method: 'POST',
-          headers: {
-            "Content-Type": 'multipart/form-data',
-            "Authorization": `Bearer ${window.localStorage.getItem('token')}`
-          },
-          body: formData
-        });
-        const result = response.json();
-        console.log(result);
-        
-      }}>
-        <div className="issue__load">
-        <label className="issue__load-file">
-          <input type="file" name="file" onChange={(e) => setFile(e.target.value)}/>		
-          <span>Выберите файл</span>
-        </label>
-        </div>
-        <input type="file" name="file" accept=".pdf" onChange={(e) => {
-          console.log(e.target.files)
-        }}/>
-        <input type="submit" />
-      </form> */}
-
-      
       <input className='hidden' ref={filePicker} type="file" name="file" accept=".pdf" onChange={handleChooseFile}/>
       <div className="issue__buttons">
-        <button className='issue__button' onClick={handleButtonLoadFile}>выбрать файл</button>
+        <button className='issue__button' onClick={handleButtonLoadFile}>{fileName == '' ? "выбрать файл" : fileName}</button>
         <button className='issue__button' onClick={handleButtonSendFile}>загрузить</button>
       </div>
-      
+
       <input className='hidden' ref={imagePicker} type="file" name="file" accept=".jpeg" onChange={handleChooseImage}/>
       <div className="issue__buttons">
-        <button className='issue__button' onClick={handleButtonLoadImage}>выбрать обложку</button>
+        <button className='issue__button' onClick={handleButtonLoadImage}>{imageName == '' ? "выбрать обложку" : imageName}</button>
         <button className='issue__button' onClick={handleButtonSendImage}>загрузить</button>
       </div>
       
       <input className='hidden' ref={videoPicker} type="file" name="file" accept="" onChange={handleChooseVideo}/>
       <div className="issue__buttons">
-        <button className='issue__button' onClick={handleButtonLoadVideo}>выбрать видео</button>
+        <button className='issue__button' onClick={handleButtonLoadVideo}>{videoName == '' ? "выбрать видео" : videoName}</button>
         <button className='issue__button' onClick={handleButtonSendVideo}>загрузить</button>
       </div>
       
-
-
-
-      
-      <p className='issue__title'>Содержание</p>
-      {/* <button className='catalog__create-issue-button' onClick={() => fetchLogin()}>войти</button> */}
       <button className='catalog__create-issue-button' onClick={() => fetchIssue()}>Создать выпуск</button>
-      {/* <button className='catalog__create-issue-button' onClick={(e) => {
-        const form = new FormData(document.querySelector('.issue__form').files);
-        console.log(form);
-      }}>Отправить файл</button> */}
-      
     </>
   );
 };

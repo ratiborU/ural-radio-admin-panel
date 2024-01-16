@@ -7,19 +7,15 @@ import IssuesService from '../api/IssueService';
 
 const ReductorComponent = ({reductor}) => {
   const [reductorImage, setReductorImage] = useState();
-  console.log(reductor);
 
 
   const [fetchReductorImage, isReductorImageLoading, reductorImageError] = useFetching( async () => {
     const reductorImageResponse = await IssuesService.getImageLinkById(reductor["imagePathId"]);
-    // console.log(reductor);
     setReductorImage(reductorImageResponse);
   })
 
   const [fetchReductorDelete, isReductorDeleteLoading, reductorDeleteError] = useFetching( async () => {
     const reductorImageResponse = await IssuesService.deleteReductor(reductor["id"]);
-    // console.log(reductor);
-    // setReductorImage(reductorImageResponse);
   })
 
 
