@@ -1,51 +1,28 @@
-import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useFetching } from '../hooks/useFetching';
-import IssuesService from '../api/IssueService';
-// import reductors from '../api/ReductorsApi';
-// import image1 from "../assets/editors/editor1.jpg";
+import { IReductor } from '../service/types/typesNew';
+import { serverUrl } from '../service/utils/serverPaths';
 
-const ReductorComponent = ({reductor}) => {
-  const [reductorImage, setReductorImage] = useState();
+type ReductorComponentProps = {
+  reductor: IReductor,
+}
 
-
-  const [fetchReductorImage, isReductorImageLoading, reductorImageError] = useFetching( async () => {
-    const reductorImageResponse = await IssuesService.getImageLinkById(reductor["imagePathId"]);
-    setReductorImage(reductorImageResponse);
-  })
-
-  const [fetchReductorDelete, isReductorDeleteLoading, reductorDeleteError] = useFetching( async () => {
-    const reductorImageResponse = await IssuesService.deleteReductor(reductor["id"]);
-  })
-
-
-  useEffect(() => {
-    fetchReductorImage();
-  }, []);
-  
-
+const ReductorComponent = ({reductor}: ReductorComponentProps) => {
   return (
-    <>
-      {
-        isReductorImageLoading 
-        ? <p></p> 
-        : <div className="editors__item">
-            <div className="editors__item-image">
-              <img src={reductorImage} alt="" />
-            </div>
-            <div className="editors__item-description">
-              <div className="editors__item-name">{reductor["name"]["Ru"]}</div>
-              <div className="editors__item-ediucation">{reductor["description"]["Ru"]}</div>
-              <div className="editors__item-rank">{reductor["rank"]}</div>
-            </div>
-            <Link to={`/reductors/${reductor["id"]}`}>
-            <button className="editors__item-button">Редактировать</button>
-            </Link>
-            
-            <button className="editors__item-button" onClick={() => fetchReductorDelete()}>Удалить</button>
-          </div>
-      }
-    </>
+    <div className="editors__item">
+      <Link to={`/reductors/${reductor.id}`}>
+        <div className="editors__item-image">
+          <img src={`${serverUrl}/api/v1/files/download/${reductor.imageID}`} alt="" />
+        </div>
+      </Link>
+      <div className="editors__item-description">
+        <div className="editors__item-name">{reductor.name.Ru}</div>
+        <div className="editors__item-ediucation">{reductor.location.Ru}</div>
+        <div className="editors__item-rank">{reductor.rank}</div>
+      </div>
+      <Link to={`/reductors/${reductor.id}`}>
+        <button className="editors__item-button">Редактировать</button>
+      </Link>
+    </div>
   );
 };
 

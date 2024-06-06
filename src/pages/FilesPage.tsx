@@ -1,35 +1,49 @@
-import React, { useState } from 'react';
-import IssueService from '../api/IssueService';
-import { useFetching } from '../hooks/useFetching';
+import { useMutation } from '@tanstack/react-query';
+import { login } from '../service/api/AuthService';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+
+const loginSchema = z.object({
+  username: z.string(),
+  password: z.string()
+});
+
+type TLoginSchema = z.infer<typeof loginSchema>;
 
 const FilesPage = () => {
-  const [login, setLogin] = useState('');
-  const [password, setPassword] = useState('');
-
-
-  const [fetchLogin, isLoginLoading, loginError] = useFetching( async () => {
-    const loginResponse = await IssueService.postAuth(login, password);
-    window.localStorage.setItem('token', loginResponse["Token"]);
-    console.log(loginResponse);
-    if (loginResponse.message == "success") {
-      alert("Вы успешно зарегестрировались");
-    } else {
-      alert("неверный логин или пароль");
-    }
-    
-  })
+  const navigate = useNavigate();
   
-  // useEffect(() => {
-  //   fetchLogin();
-  // }, [])
+  const {register, handleSubmit} = useForm<TLoginSchema>({resolver: zodResolver(loginSchema)});
+  
+  const loginMutation = useMutation({
+    mutationFn: async (data: TLoginSchema) => {
+      await login(data.username, data.password);
+    },
+    onSuccess: () => {
+      navigate(`/issues`);
+    }
+  })
 
+  const onSubmitHandle = (data: TLoginSchema) => {
+    loginMutation.mutate(data);
+  }
+  const onExitHandle = () => {
+    window.localStorage.setItem('token', '');
+    alert('Вы успешно вышли');
+  }
 
   return (
     <div className='login'>
-      <input className='login__login-input' type="text" placeholder='login...' value={login} onChange={(e) => {setLogin(e.target.value)}}/>
-      <input className='login__password-input' type="password" placeholder='password...' value={password} onChange={(e) => {setPassword(e.target.value)}}/>
+      <form onSubmit={handleSubmit(onSubmitHandle)}>
+        <input {...register("username")} className='login__login-input' type="text" placeholder='login...'/>
+        <input {...register("password")} className='login__password-input' type="password" placeholder='password...'/>
 
-      <button className='login__button' onClick={() => fetchLogin()}>войти</button>
+        <button className='login__button' type='submit'>войти</button>
+        <button className='login__exit-button' type='button' onClick={onExitHandle}>выйти</button>
+      </form>
+      
     </div>
   );
 };

@@ -1,11 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Link, NavLink, Outlet } from 'react-router-dom';
-import { useFetching } from '../hooks/useFetching';
-import IssueService from '../api/IssueService';
+import { NavLink, Outlet } from 'react-router-dom';
 import Page from './Page';
 
 
-const setActiveLink = ({isActive}) => isActive ? 'header__group-link header__group-link-active' : 'header__group-link';
+const setActiveLink = ({isActive}: {isActive: boolean}) => isActive ? 'header__group-link header__group-link-active' : 'header__group-link';
 
 const Layout = () => {
   return (

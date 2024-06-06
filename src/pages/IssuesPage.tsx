@@ -1,44 +1,44 @@
-import React, { useEffect, useState } from 'react';
 import IssuseComponent from '../components/IssueComponent';
-import IssuesService from '../api/IssueService';
-import { useFetching } from '../hooks/useFetching';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { getIssues } from '../service/api/IssueService';
+import { useQuery } from '@tanstack/react-query';
+import { useEffect } from 'react';
 
 const IssuesPage = () => {
-  const [issues, setIssues] = useState([]);
-
-
-  const [fetchIssues, isIssuesLoading, issuesError] = useFetching( async () => {
-    const issuesResponse = await IssuesService.getAllIssues();
-    
-    issuesResponse.sort((a, b) => a["title"]["Ru"] < b["title"]["Ru"] ? 1 : -1);
-    setIssues(issuesResponse);
-  })
+  const navigate = useNavigate();
+  const { data: issues, isLoading, error } = useQuery({
+    queryFn: async () => await getIssues(),
+    queryKey: ["issues"],
+    staleTime: Infinity,
+  });
+  
 
   useEffect(() => {
-    fetchIssues();
-  }, []);
+    if (window.localStorage.getItem('token') == '') {
+      navigate(`/files`);
+    }
+  }, [navigate]);
 
-  
+  if (error) {
+    return <>произошла ошибка</>
+  }
+  if (isLoading) {
+    return <>загрузка...</>
+  }
+
   return (
-    <>
-      {isIssuesLoading 
-        ? <p>загрузка</p>
-        : <div className="catalog">
-          <Link to={`/issues/create`}>
-            <button className='catalog__create-issue-button'>Создать статью</button>
-          </Link>
-          
-            <div className="catalog__container">
-              {issues.map((item, id) => {
-                return <IssuseComponent key={id} item={item}/>
-              })}
-            </div>
-            
-          </div>
-      }
-    </>
-  );
+    <div className="catalog">
+      <Link to={`/issues/create`}>
+        <button className='catalog__create-issue-button'>Создать статью</button>
+      </Link>
+    
+      <div className="catalog__container">
+        {issues?.map((item, id) => {
+          return <IssuseComponent key={id} item={item}/>
+        })}
+      </div>
+    </div>
+  )
 };
 
 export default IssuesPage;

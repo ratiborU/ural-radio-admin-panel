@@ -1,44 +1,54 @@
-// import { useState} from 'react'
 import { Routes, Route } from 'react-router-dom';
 
 import Layout from './components/Layout';
 
 import IssuesPage from './pages/IssuesPage';
-import IssueEditPage from './pages/IssueEditPage';
-import IssueCreatePage from './pages/IssueCreatePage';
+import EditIssuePage from './pages/EditIssuePage';
+import CreateIssuePage from './pages/CreateIssuePage';
 
-import ArticleEditPage from './pages/ArticleEditPage';
-import ArticleCreatePage from './pages/ArticleCreatePage';
+import EditArticlePage from './pages/EditArticlePage';
+import CreateArticlePage from './pages/CreateArticlePage';
 
-import ReductorsPage from './pages/ReductorsPage';
-import ReductorEditPage from './pages/ReductorEditPage';
-import ReductorCreatePage from './pages/ReductorCreatePage';
+import CouncilsPage from './pages/CouncilsPage';
+import EditCouncilPage from './pages/EditCouncil';
+import CreateCouncilPage from './pages/CreateCouncilPage';
+import EditReductorPage from './pages/EditReductorPage';
+import CreateReductorPage from './pages/CreateReductorPage';
+
+
 
 import FilesPage from './pages/FilesPage';
 
-// import IssueService from './api/IssueService';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 
+const queryClient = new QueryClient();
 
 
 function App() {
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <Routes>
         <Route path="/" element={<Layout/>}>
           <Route index element={<IssuesPage/>} />
+
           <Route path="issues" element={<IssuesPage/>} />
-          <Route path="issues/:id" element={<IssueEditPage/>} />
-          <Route path="issues/create" element={<IssueCreatePage/>} />
-          <Route path="issues/article/:id" element={<ArticleEditPage/>} />
-          <Route path="issues/article/create/:id" element={<ArticleCreatePage/>} />
-          <Route path="reductors" element={<ReductorsPage/>} />
-          <Route path="reductors/:id" element={<ReductorEditPage/>} />
-          <Route path="reductors/create" element={<ReductorCreatePage/>} />
+          <Route path="issues/:id" element={<EditIssuePage/>} />
+          <Route path="issues/create" element={<CreateIssuePage/>} />
+
+          <Route path="issues/article/:id" element={<EditArticlePage/>} />
+          <Route path="issues/article/create/:id" element={<CreateArticlePage/>} />
+
+          <Route path="reductors" element={<CouncilsPage/>} />
+          <Route path="councils/:id" element={<EditCouncilPage/>} />
+          <Route path="councils/create" element={<CreateCouncilPage/>} />
+          <Route path="reductors/:id" element={<EditReductorPage/>} />
+          <Route path="reductors/create" element={<CreateReductorPage/>} />
+
           <Route path="files" element={<FilesPage/>} />
         </Route>
       </Routes>
-    </>
+    </QueryClientProvider>
   )
 }
 
