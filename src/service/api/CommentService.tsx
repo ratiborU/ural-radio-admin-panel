@@ -35,7 +35,7 @@ export const createComment = async (
       return response["data"];
     }).catch((error) => {
       console.log(error);
-      return null;
+      throw new Error(error.message);
     }); 
   return response;
 }
@@ -59,7 +59,7 @@ export const updateComment = async (
       return response["data"];
     }).catch((error) => {
       console.log(error);
-      return null;
+      throw new Error(error.message);
     }); 
   return response;
 }
@@ -80,7 +80,7 @@ export const approveComment = async (
       return response["data"];
     }).catch((error) => {
       console.log(error);
-      return null;
+      throw new Error(error.message);
     }); 
   return response;
 }
@@ -96,7 +96,7 @@ export const deleteComment = async (
       return response["data"];
     }).catch((error) => {
       console.log(error);
-      return null;
+      throw new Error(error.message);
     }); 
   return response;
 }

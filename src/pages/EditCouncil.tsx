@@ -81,6 +81,7 @@ const EditCouncilPage = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: ["councils"]});
+      queryClient.invalidateQueries({queryKey: ["council", id]});
       alert('Изменения сохранены');
     }
   });

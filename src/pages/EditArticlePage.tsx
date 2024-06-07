@@ -64,8 +64,8 @@ const EditArticlePage = () => {
       
     }, 
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ["articles", id]});
-      navigate(`/issues/${id}`);
+      queryClient.invalidateQueries({queryKey: ["articles", String(article?.editionId)]});
+      navigate(`/issues/${String(article?.editionId)}`);
     }
   });
 

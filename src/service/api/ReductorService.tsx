@@ -67,7 +67,7 @@ export const createReductor = async (
       return response["data"];
     }).catch((error) => {
       console.log(error);
-      return null;
+      throw new Error(error.message);
     }); 
   return response;
 }
@@ -117,7 +117,7 @@ export const updateReductor = async (
       return response["data"];
     }).catch((error) => {
       console.log(error);
-      return null;
+      throw new Error(error.message);
     }); 
   return response;
 }

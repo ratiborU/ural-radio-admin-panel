@@ -95,6 +95,7 @@ const EditCouncilPage = () => {
     onSuccess: () => {
       alert('Изменения сохранены');
       queryClient.invalidateQueries({queryKey: ["reductors"]});
+      queryClient.invalidateQueries({queryKey: ["reductor", id]});
     }
   });
 

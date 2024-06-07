@@ -48,14 +48,12 @@ const CreateCouncilPage = () => {
       );
     },
     onSuccess: () => {
-      console.log("hola");
       queryClient.invalidateQueries({queryKey: ["councils"]})
       navigate(`/reductors`);
     }
   });
   
   const onSubmitHandle = (data: TCouncilSchema) => {
-    console.log(data);
     councilMutation.mutate(data);
   }
 

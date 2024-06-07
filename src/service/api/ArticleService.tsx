@@ -73,7 +73,7 @@ export const createArticle = async (
       return response["data"];
     }).catch((error) => {
       console.log(error);
-      return null;
+      throw new Error(error.message);
     }); 
   return response;
 }
@@ -126,7 +126,7 @@ export const updateArticle = async (
       return response["data"];
     }).catch((error) => {
       console.log(error);
-      return null;
+      throw new Error(error.message);
     }); 
   return response;
 }
