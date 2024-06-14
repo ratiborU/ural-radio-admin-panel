@@ -65,8 +65,6 @@ const CreateArticlePage = () => {
         Eng: keywordsEng[i],
       }))
       
-      // const fileResponse = await uploadFile(file!);
-      // const videoResponse = await uploadFile(video!);
 
       let fileResponse = '';
       let videoResponse = '';
@@ -233,9 +231,9 @@ const CreateArticlePage = () => {
         </div>
         
         <div className="edit-text">Аннотация</div>
-        <input {...register("contentRu")} className="edit-input-short-margin-start" type="text" placeholder='Введите аннотацию на русском...'/>
+        <textarea {...register("contentRu")} className="edit-input-short-margin-start edit-input-short-margin-start-textarea" placeholder='Введите аннотацию на русском...'/>
         {errors.contentRu && <p className='error-form-message'>{`${errors.contentRu.message}`}</p>}
-        <input {...register("contentEng")} className="edit-input-short-margin" type="text" placeholder='Введите аннотацию на английском...'/>
+        <textarea {...register("contentEng")} className="edit-input-short-margin edit-input-short-margin-textarea" placeholder='Введите аннотацию на английском...'/>
         {errors.contentEng && <p className='error-form-message'>{`${errors.contentEng.message}`}</p>}
 
         <div className="edit-text edit-margin-top">Ключевые слова</div>

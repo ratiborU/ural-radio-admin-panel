@@ -1745,4 +1745,21 @@ footer {
 .editors__button-margin {
   margin-bottom: 50px;
 }
-
+.edit-input-short-margin-start-textarea {
+  padding-top: 5px;
+  height: 120px;
+  min-height: 42px;
+  max-height: 400px;
+  width: 600px;
+  max-width: 600px;
+  min-width: 600px;
+}
+.edit-input-short-margin-textarea {
+  padding-top: 5px;
+  height: 120px;
+  min-height: 42px;
+  max-height: 400px;
+  width: 600px;
+  max-width: 600px;
+  min-width: 600px;
+}
