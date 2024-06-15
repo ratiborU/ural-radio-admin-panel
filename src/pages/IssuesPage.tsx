@@ -14,7 +14,7 @@ const IssuesPage = () => {
   
 
   useEffect(() => {
-    if (window.localStorage.getItem('token') == '') {
+    if (!window.localStorage.getItem('token')) {
       navigate(`/files`);
     }
   }, [navigate]);

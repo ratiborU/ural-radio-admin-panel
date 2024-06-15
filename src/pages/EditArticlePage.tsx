@@ -325,8 +325,8 @@ const EditArticlePage = () => {
         {errors.contentEng && <p className='error-form-message'>{`${errors.contentEng.message}`}</p>}
 
         <div className="edit-text edit-margin-top">Ключевые слова</div>
-        <input {...register("keywordsRu")} className="edit-input-short-margin-start" type="text" placeholder='Ключевые слова на русском через запятую...'/>
-        <input {...register("keywordsEng")} className="edit-input-short-margin" type="text" placeholder='Ключевые слова на английском через запятую...'/>
+        <textarea {...register("keywordsRu")} className="edit-input-short-margin-start edit-input-short-margin-start-textarea" placeholder='Ключевые слова на русском через запятую...'/>
+        <textarea {...register("keywordsEng")} className="edit-input-short-margin edit-input-short-margin-textarea" placeholder='Ключевые слова на английском через запятую...'/>
 
         <div className="edit-text edit-margin-top">Литература</div>
         {literature.map((_x, i) => 

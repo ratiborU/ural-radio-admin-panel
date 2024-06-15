@@ -82,9 +82,9 @@ const CreateReductorPage = () => {
       {errors.email && <p className='error-form-message'>{`${errors.email.message}`}</p>}
 
       <div className="reductor__edit-text edit-margin-top">Описание</div>
-      <input {...register("descriptionRu")} className="edit-input-short-margin-start" type="text" placeholder='Введите описание на русском...'/>
+      <textarea {...register("descriptionRu")} className="edit-input-short-margin-start edit-input-short-margin-start-textarea" placeholder='Введите описание на русском...'/>
       {errors.descriptionRu && <p className='error-form-message'>{`${errors.descriptionRu.message}`}</p>}
-      <input {...register("descriptionEng")} className="edit-input-short-margin" type="text" placeholder='Введите описание на английском...'/>
+      <textarea {...register("descriptionEng")} className="edit-input-short-margin edit-input-short-margin-textarea" placeholder='Введите описание на английском...'/>
       {errors.descriptionEng && <p className='error-form-message'>{`${errors.descriptionEng.message}`}</p>}
 
       <div className="reductor__edit-text edit-margin-top">Контент</div>

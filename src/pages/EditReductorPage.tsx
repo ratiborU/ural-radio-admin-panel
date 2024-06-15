@@ -132,9 +132,11 @@ const EditCouncilPage = () => {
       <div className="reductor__edit-text">Email</div>
       <input {...register("email")} className="edit-input" type="text" placeholder='Введите email...'/>
 
-      <div className="reductor__edit-text">Описание</div>
-      <input {...register("descriptionRu")} className="edit-input-short-margin" type="text" placeholder='Введите описание на русском...'/>
-      <input {...register("descriptionEng")} className="edit-input" type="text" placeholder='Введите описание на английском...'/>
+      <div className="reductor__edit-text edit-margin-top">Описание</div>
+      <textarea {...register("descriptionRu")} className="edit-input-short-margin-start edit-input-short-margin-start-textarea" placeholder='Введите описание на русском...'/>
+      {/* {errors.descriptionRu && <p className='error-form-message'>{`${errors.descriptionRu.message}`}</p>} */}
+      <textarea {...register("descriptionEng")} className="edit-input-short-margin edit-input-short-margin-textarea" placeholder='Введите описание на английском...'/>
+      {/* {errors.descriptionEng && <p className='error-form-message'>{`${errors.descriptionEng.message}`}</p>} */}
 
       <div className="reductor__edit-text">Контент</div>
       <input {...register("contentRu")} className="edit-input-short-margin" type="text" placeholder='Введите контент на русском...'/>
