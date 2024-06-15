@@ -51,10 +51,10 @@ const EditCouncilPage = () => {
       setValue('descriptionRu', String(reductor?.description.Ru));
       setValue('descriptionEng', String(reductor?.description.Eng));
       setValue('contentRu', String(reductor?.content.Ru));
-      setValue('contentEng', String(reductor?.content.Ru));
+      setValue('contentEng', String(reductor?.content.Eng));
       setValue('rank', String(reductor?.rank));
       setValue('locationRu', String(reductor?.location.Ru));
-      setValue('locationEng', String(reductor?.location.Ru));
+      setValue('locationEng', String(reductor?.location.Eng));
       setValue('dateJoin', String(reductor?.dateJoin.split('T')[0]));
 
       setImageId(reductor?.imageID);

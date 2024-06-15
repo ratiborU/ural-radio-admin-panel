@@ -36,10 +36,10 @@ const EditCouncilPage = () => {
       setValue('descriptionRu', String(council?.description.Ru));
       setValue('descriptionEng', String(council?.description.Eng));
       setValue('contentRu', String(council?.content.Ru));
-      setValue('contentEng', String(council?.content.Ru));
+      setValue('contentEng', String(council?.content.Eng));
       setValue('rank', String(council?.rank));
       setValue('locationRu', String(council?.location.Ru));
-      setValue('locationEng', String(council?.location.Ru));
+      setValue('locationEng', String(council?.location.Eng));
       setValue('dateJoin', String(council?.dateJoin.split('T')[0]));
 
       setImageId(council?.imageID);
