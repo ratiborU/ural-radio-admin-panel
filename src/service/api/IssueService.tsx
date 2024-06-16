@@ -6,7 +6,10 @@ import { serverUrl } from "../utils/serverPaths.tsx";
 export const getIssues = async (): Promise<IIssue[]> => {
   const response = await axios.get(`${serverUrl}/api/v1/editions/get/all`)
     .then((response) => {
-      return response["data"]["data"];
+      return response["data"]["data"].sort((issue: IIssue, issue2: IIssue) => {
+        return issue2.year - issue.year || issue2.volume - issue.volume || issue2.number - issue.number
+        return 1;
+      });
     }).catch((error: Error) => {
       console.log(error.message);
       throw new Error(error.message);

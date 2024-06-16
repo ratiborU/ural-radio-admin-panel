@@ -29,7 +29,7 @@ const IssuesPage = () => {
   return (
     <div className="catalog">
       <Link to={`/issues/create`}>
-        <button className='catalog__create-issue-button'>Создать статью</button>
+        <button className='catalog__create-issue-button'>Создать выпуск</button>
       </Link>
     
       <div className="catalog__container">

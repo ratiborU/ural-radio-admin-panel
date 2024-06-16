@@ -287,7 +287,7 @@ const CreateArticlePage = () => {
         </div>
 
         {/* <button className='catalog__create-issue-button' type='submit'>создать</button> */}
-        <button className='small-button' type="submit">Создать</button>
+        <button className='small-button' type="submit" disabled={articleMutation.status == 'pending'}>{articleMutation.status == 'pending' ? "Загрузка..." : "Создать"}</button>
       </form>
       
     </div>
