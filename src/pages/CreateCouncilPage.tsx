@@ -51,7 +51,7 @@ const CreateCouncilPage = () => {
       );
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ["councils"]})
+      queryClient.invalidateQueries({queryKey: ["councils"]});
       navigate(`/reductors`);
     }
   });

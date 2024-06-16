@@ -32,7 +32,7 @@ const CouncilsPage = () => {
   if (error || reductorsError) {
     return <>{"произошла ошибка :("}</>
   }
-  if (isLoading && isLoadingReductors) {
+  if (isLoading || isLoadingReductors) {
     return <>загрузка...</>
   }
 

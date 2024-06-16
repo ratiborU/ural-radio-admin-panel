@@ -82,6 +82,14 @@ export const councilSchema = z.object({
 }, {
   message: "Неверно введена дата",
   path: ["dateJoin"]
+}).refine(data => {
+  return data.rank == "Главный редактор" 
+          || data.rank == "Заместитель главного редактора" 
+          || data.rank == "Зав. редакцией" 
+          || data.rank == "Член редакционного совета";
+}, {
+  message: "Это поле может быть равно только: Главный редактор, Заместитель главного редактора, Зав. редакцией или Член редакционного совета",
+  path: ["rank"]
 });
 
 export type TCouncilSchema = z.infer<typeof councilSchema>;
