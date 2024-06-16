@@ -1,16 +1,31 @@
 import IssuseComponent from '../components/IssueComponent';
 import { Link, useNavigate } from 'react-router-dom';
 import { getIssues } from '../service/api/IssueService';
-import { useQuery } from '@tanstack/react-query';
-import { useEffect } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
+import { IIssue } from '../service/types/typesNew';
 
 const IssuesPage = () => {
   const navigate = useNavigate();
-  const { data: issues, isLoading, error } = useQuery({
-    queryFn: async () => await getIssues(),
+  const queryClient = useQueryClient();
+
+  const [offset, setOffset] = useState(0);
+  const [limit] = useState(9);
+  const [issuesList, setIssuesList] = useState<IIssue[]>([]);
+  const [allCount, setAllCount] = useState(0); 
+
+  const { isLoading, error } = useQuery({
+    queryFn: async () => {
+      const response = await getIssues(offset, limit)
+      setIssuesList([...issuesList, ...response.data]);
+      setOffset(offset + limit);
+      setAllCount(response.allCount);
+      return [...response.data];
+    }, 
     queryKey: ["issues"],
-    staleTime: Infinity,
+    // staleTime: Infinity,
   });
+
   
 
   useEffect(() => {
@@ -18,6 +33,11 @@ const IssuesPage = () => {
       navigate(`/files`);
     }
   }, [navigate]);
+
+  const handleButtonAddIssues = () => {
+    queryClient.invalidateQueries({queryKey: ['issues']});
+  }
+
 
   if (error) {
     return <>произошла ошибка</>
@@ -33,10 +53,11 @@ const IssuesPage = () => {
       </Link>
     
       <div className="catalog__container">
-        {issues?.map((item, id) => {
+        {issuesList?.map((item, id) => {
           return <IssuseComponent key={id} item={item}/>
         })}
       </div>
+      {issuesList!.length < allCount && <button className='catalog__add-issues-button' onClick={() => handleButtonAddIssues()}>Загрузить ещё</button>}
     </div>
   )
 };

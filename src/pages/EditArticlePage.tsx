@@ -376,7 +376,7 @@ const EditArticlePage = () => {
 
         {/* <button className='catalog__create-issue-button' type='submit'>создать</button> */}
         <div className="create-issue__buttons-save">
-          <button className='small-button' type="submit">{articleMutation.status == 'pending' ? "Загрузка..." : "Сохранить"}</button>
+          <button className='small-button' type="submit" disabled={articleMutation.status == 'pending'}>{articleMutation.status == 'pending' ? "Загрузка..." : "Сохранить"}</button>
           <button className='small-button-delete' type="button" onClick={() => articleDeleteMutation.mutate()}>Удалить статью</button>
         </div>
       </form>

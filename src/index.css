@@ -1763,3 +1763,31 @@ footer {
   max-width: 600px;
   min-width: 600px;
 }
+.catalog__add-issues-button{
+  /* width: 100%; */
+  display: block;
+  height: 50px;
+  padding: 0px 80px;
+  top: 811px;
+  left: 123px;
+  border-radius: 3px;
+  background: #27729A;
+
+  color: #FFF;
+  font-family: "Roboto", sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  transition-duration: 0.1s;
+  margin: 0 auto;
+  margin-top: 60px;
+}
+.catalog__add-issues-button:hover {
+  background: rgba(47, 136, 184, 1);
+  transform: scale(1.015);
+}
+.catalog__add-issues-button:active {
+  background: rgba(61, 176, 238, 1);
+  transform: scale(0.95);
+} 

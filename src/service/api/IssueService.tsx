@@ -3,9 +3,14 @@ import { IIssue } from "../types/typesNew.tsx";
 import { serverUrl } from "../utils/serverPaths.tsx";
 
 
-export const getIssues = async (): Promise<IIssue[]> => {
-  const response = await axios.get(`${serverUrl}/api/v1/editions/get/all`)
+export const getIssues = async (offset: number, limit: number): Promise<{allCount: number, data: IIssue[]}> => {
+  let allCount = 0;
+  const response = await axios.get(`${serverUrl}/api/v1/editions/get/all?offset=${offset}&limit=${limit}`)
     .then((response) => {
+      allCount = response.data.all_count;
+      if (response["data"]["data"] == null) {
+        return []
+      } 
       return response["data"]["data"].sort((issue: IIssue, issue2: IIssue) => {
         return issue2.year - issue.year || issue2.volume - issue.volume || issue2.number - issue.number
         return 1;
@@ -14,7 +19,7 @@ export const getIssues = async (): Promise<IIssue[]> => {
       console.log(error.message);
       throw new Error(error.message);
     }); 
-  return response;
+  return {allCount: allCount, data: response};
 }
 
 export const getIssueById = async (id: string): Promise<IIssue> => {

@@ -104,7 +104,7 @@ const CreateIssuePage = () => {
         <button className='small-button' onClick={handleButtonLoadImage} type="button">{imageName ? imageName : 'Загрузить обложку'}</button>
       </div>
       
-      <button className='small-button' type="submit">Создать</button>
+      <button className='small-button' type="submit" disabled={issueMutation.status == 'pending'}>{issueMutation.status == 'pending' ? "Загрузка..." : "Создать"}</button>
     </form>
   );
 };
