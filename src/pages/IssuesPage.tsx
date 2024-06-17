@@ -10,20 +10,18 @@ const IssuesPage = () => {
   const queryClient = useQueryClient();
 
   const [offset, setOffset] = useState(0);
-  const [limit] = useState(9);
+  const [limit] = useState(3);
   const [issuesList, setIssuesList] = useState<IIssue[]>([]);
-  const [allCount, setAllCount] = useState(0); 
 
-  const { isLoading, error } = useQuery({
+  const {data: issues, isLoading, error } = useQuery({
     queryFn: async () => {
       const response = await getIssues(offset, limit)
       setIssuesList([...issuesList, ...response.data]);
       setOffset(offset + limit);
-      setAllCount(response.allCount);
-      return [...response.data];
+      return {...response, data: [...issuesList, ...response.data]};
     }, 
     queryKey: ["issues"],
-    // staleTime: Infinity,
+    staleTime: Infinity,
   });
 
   
@@ -33,6 +31,14 @@ const IssuesPage = () => {
       navigate(`/files`);
     }
   }, [navigate]);
+
+  useEffect(() => {
+    if (issues) {
+      setOffset(issues.data.length);
+      setIssuesList([...issuesList, ...issues.data]);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleButtonAddIssues = () => {
     queryClient.invalidateQueries({queryKey: ['issues']});
@@ -53,11 +59,11 @@ const IssuesPage = () => {
       </Link>
     
       <div className="catalog__container">
-        {issuesList?.map((item, id) => {
+        {issues?.data.map((item, id) => {
           return <IssuseComponent key={id} item={item}/>
         })}
       </div>
-      {issuesList!.length < allCount && <button className='catalog__add-issues-button' onClick={() => handleButtonAddIssues()}>Загрузить ещё</button>}
+      {issues && issues.data.length < issues.allCount && <button className='catalog__add-issues-button' onClick={() => handleButtonAddIssues()}>Загрузить ещё</button>}
     </div>
   )
 };
