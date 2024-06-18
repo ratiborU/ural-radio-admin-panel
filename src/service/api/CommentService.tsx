@@ -5,7 +5,11 @@ import { IComment } from "../types/typesNew";
 
 
 export const getComments = async (id: number, isApproved: boolean): Promise<IComment[]> => {
-  const response = await axios.get(`${serverUrl}/api/v1/comments/get/all?onlyApproved=${isApproved}&articleId=${id}`)
+  const response = await axios.get(`${serverUrl}/api/v1/comments/get/all?onlyApproved=${isApproved}&articleId=${id}`, {
+    headers: {
+      "Authorization": `${window.localStorage.getItem("token")}`
+    }
+  })
     .then((response) => {
       return response.data.data;
     }).catch((error: Error) => {
